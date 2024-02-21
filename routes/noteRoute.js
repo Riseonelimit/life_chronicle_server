@@ -1,5 +1,5 @@
 const { addComment, getCommentsByNoteID, getReviewComments } = require("../controller/noteCommentController")
-const {  addNote, authTest, getUserNotesByDay, getNoteUser, getAllNotes, updateLikeCount, deleteLike, addLike, getLike, getNotesByTitle } = require("../controller/noteController")
+const {  addNote, authTest, getUserNotesByDay, getNoteUser, getAllNotes, updateLikeCount, deleteLike, addLike, getLike, getNotesByTitle, getUserCompletedDays } = require("../controller/noteController")
 const { auth } = require("../middleware/auth,")
 const { analyzeCommentContent } = require("../middleware/commentSanitize")
 const { validateUser } = require("../middleware/validation")
@@ -18,6 +18,7 @@ exports.noteRouter = router
 .get("/likes",getLike)
 .get("/getreviewcomments",auth,getReviewComments)
 .get("/search",getNotesByTitle)
+.get("/completed_days",getUserCompletedDays)
 
 .post("/addcomment",analyzeCommentContent,addComment)
 .post("/addNote",auth,addNote)

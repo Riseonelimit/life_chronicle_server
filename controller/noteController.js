@@ -89,7 +89,8 @@ exports.getUserNotesByDay = (req, res) => {
                         publish_date: result[0].publish_date,
                         content: result[0].content,
                         likes_count: result[0].likes_count,
-                        is_day_completed: result[0].is_day_completed,
+                        is_day_completed:
+                            result[0].is_day_completed == 0 ? false : true,
                         day_no: result[0].day_no,
                         media_id: result[0].media_id,
                     },
@@ -216,6 +217,26 @@ exports.getNotesByTitle = (req, res) => {
     con.query(
         "SELECT title,user_slug,day_no from notes where title LIKE ?;",
         ["%" + title + "%"],
+        (err, result) => {
+            try {
+                if (err) {
+                    throw new Error(err.message);
+                }
+                return res
+                    .status(200)
+                    .json(new Response(200, "Success", result));
+            } catch (e) {
+                res.status(400).json({ error: e.message });
+            }
+        }
+    );
+};
+
+exports.getUserCompletedDays = (req, res) => {
+    const { slug } = req.query;
+    con.query(
+        "SELECT day_no from notes where is_day_completed AND user_slug = ?;",
+        [slug],
         (err, result) => {
             try {
                 if (err) {
