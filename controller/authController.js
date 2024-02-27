@@ -40,13 +40,13 @@ exports.signUp = async (req,res)=>{
 				return res.status(200).json({newUser , token})
 			}
 			catch(e){
-				console.log(e);
+				
 			}
 			
 		})
 	}
 	catch(e){
-		console.log(e.message);
+		
 		return res.status(400).json(e.message)
 	}
 }
